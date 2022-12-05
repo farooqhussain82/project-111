@@ -20,6 +20,8 @@ module "dev-vpc" {
 module "eks-cluster" {
   source = "../../modules/eks"
 
+  region = var.region
+
   environment     = var.environment
   vpc_id          = module.dev-vpc.vpc_id
   private_subnets = module.dev-vpc.private_subnet

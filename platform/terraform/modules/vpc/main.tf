@@ -21,8 +21,9 @@ module "vpc" {
   private_subnets     = var.private_subnets
   intra_subnets       = var.intra_subnets
 
-  enable_nat_gateway = true
-  single_nat_gateway = true
+  enable_nat_gateway     = true
+  single_nat_gateway     = true
+  one_nat_gateway_per_az = false
 
   enable_flow_log           = true
   flow_log_traffic_type     = "ALL"
@@ -37,6 +38,18 @@ module "vpc" {
   elasticache_dedicated_network_acl = false
 
   manage_default_network_acl = true
+
+  public_subnet_tags = {
+    "kubernetes.io/role/elb" = 1
+  }
+
+  private_subnet_tags = {
+    "kubernetes.io/role/internal-elb" = 1
+  }
+
+  tags = {
+    Environment = var.environment
+  }
 
 }
 

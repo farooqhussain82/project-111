@@ -25,7 +25,7 @@ default_network_outbound_acl_rules = [
 
 #Kubernetes Variables
 
-max_size       = 1
-min_size       = 1
-desired_size   = 1
-instance_types = ["t3a.medium"]
+max_size       = 3
+min_size       = 3
+desired_size   = 3
+instance_types = ["t3a.micro"]
