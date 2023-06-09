@@ -27,7 +27,7 @@ module "eks" {
   source = "terraform-aws-modules/eks/aws"
 
   cluster_name              = local.cluster_name
-  cluster_version           = local.cluster_version
+  cluster_version           = var.cluster_version
   cluster_enabled_log_types = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
 
   cluster_endpoint_private_access = true

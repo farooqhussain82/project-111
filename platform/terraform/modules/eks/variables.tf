@@ -3,6 +3,11 @@ variable "environment" {
   type    = string
 }
 
+variable "cluster_version" {
+  default = ""
+  type    = string
+}
+
 variable "region" {
   type = string
 }
