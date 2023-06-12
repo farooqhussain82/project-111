@@ -29,3 +29,10 @@ max_size       = 3
 min_size       = 3
 desired_size   = 3
 instance_types = ["t3a.micro"]
+
+#MSK Variables
+
+number_of_broker_nodes = 3
+kafka_broker_storage_volume = 1000
+instance_class = "kafka.m5.large"
+kafka_version = "2.8.1"
