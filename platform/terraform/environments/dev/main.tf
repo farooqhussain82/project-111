@@ -1,8 +1,6 @@
 module "eks-cluster" {
-  source = "../../modules/eks"
-
-  region = var.region
-
+  source          = "../../modules/eks"
+  region          = var.region
   environment     = var.environment
   vpc_id          = var.vpc_id
   private_subnets = var.private_subnets
@@ -13,7 +11,6 @@ module "eks-cluster" {
 }
 
 module "rds-db" {
-  source = "../../modules/rds"
-
+  source     = "../../modules/rds"
   identifier = var.environment
 }

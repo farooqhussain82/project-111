@@ -21,7 +21,6 @@ module "vpc_ebs_csi_role" {
   role_name = "vpc-ebs-csi"
 
   attach_ebs_csi_policy = true
-
   oidc_providers = {
     main = {
       provider_arn               = module.eks.oidc_provider_arn
