@@ -19,3 +19,5 @@ variable "min_size" {}
 variable "max_size" {}
 
 variable "desired_size" {}
+
+variable "identifier" {}

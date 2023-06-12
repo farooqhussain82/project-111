@@ -11,3 +11,8 @@ module "eks-cluster" {
   desired_size    = var.desired_size
   instance_types  = var.instance_types
 }
+
+module "rds-db" {
+  source = "../../modules/rds"
+
+  identifier = var.environment
