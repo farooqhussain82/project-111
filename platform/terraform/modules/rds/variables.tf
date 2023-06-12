@@ -4,7 +4,7 @@ variable "identifier" {
 }
 
 variable "allocated_storage" {
-  type    = number
+  type = number
 }
 
 variable "engine" {
@@ -52,16 +52,16 @@ variable "backup_window" {
 }
 
 variable "monitoring_interval" {
-	default = 60
-	type = number
+  default = 60
+  type    = number
 }
 
 variable "create_db_subnet_group" {
-	default = true
-	type = bool
+  default = true
+  type    = bool
 }
 
 variable "subnet_ids" {
-	default = ""
-	type = list
+  default = ""
+  type    = list(any)
 }

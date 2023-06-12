@@ -16,3 +16,4 @@ module "rds-db" {
   source = "../../modules/rds"
 
   identifier = var.environment
+}
