@@ -23,7 +23,7 @@ variable "family" {
 }
 
 variable "name" {
-  default = "dev"
+  default = "datahub"
   type    = string
 }
 
@@ -32,12 +32,12 @@ variable "instance_class" {
 }
 
 variable "db_name" {
-  default = "dev"
+  default = "datahub"
   type    = string
 }
 
 variable "username" {
-  default = "admin"
+  default = "root"
   type    = string
 }
 
@@ -57,7 +57,7 @@ variable "monitoring_interval" {
 }
 
 variable "create_db_subnet_group" {
-  default = true
+  default = false
   type    = bool
 }
 
