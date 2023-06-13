@@ -62,6 +62,6 @@ variable "create_db_subnet_group" {
 }
 
 variable "subnet_ids" {
-  default = ""
+  default = []
   type    = list(any)
 }
