@@ -1,6 +1,7 @@
 environment         = "dev"
 cidr                = "10.101.0.0/16"
-region              = "eu-west-1"
+vpc_name            = "aft_vpc"
+region              = "ap-southeast-1"
 database_subnets    = ["10.101.1.0/24", "10.101.2.0/24", "10.101.3.0/24"]
 private_subnets     = ["10.101.11.0/24", "10.101.12.0/24", "10.101.13.0/24"]
 public_subnets      = ["10.101.21.0/24", "10.101.22.0/24", "10.101.23.0/24"]

@@ -46,3 +46,9 @@ module "msk-cluster" {
   private_subnets = var.private_subnets
   msk_security_group = [module.msk_service_sg.security_group_id]
 }
+module "datahub-open-search" {
+  source           = "../../modules/open-search"
+  vpc_name         = var.vpc_name
+  aws_region       = var.region
+  vpc_subnets_name = ["aft-app-ap-southeast-1a", "aft-app-ap-southeast-1b", "aft-app-ap-southeast-1c"]
+}
