@@ -15,8 +15,8 @@ data "aws_ssm_parameter" "database_subnets" {
 }
 
 locals {
-  vpc_id           = data.aws_ssm_parameter.vpc_id
-  vpc_cidr         = data.aws_ssm_parameter.vpc_cidr
-  database_subnets = data.aws_ssm_parameter.database_subnets
-  private_subnets  = split(",", data.aws_ssm_parameter.private_subnets)
+  vpc_id           = data.aws_ssm_parameter.vpc_id.value
+  vpc_cidr         = data.aws_ssm_parameter.vpc_cidr.value
+  database_subnets = data.aws_ssm_parameter.database_subnets.value
+  private_subnets  = split(",", data.aws_ssm_parameter.private_subnets.value)
 }
