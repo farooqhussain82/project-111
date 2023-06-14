@@ -23,6 +23,8 @@ default_network_outbound_acl_rules = [
   { rule_number = "100", rule_action = "deny", from_port = "0", to_port = "0", protocol = "-1", cidr_block = "0.0.0.0/0" }
 ]
 
+identifier = "test123"
+
 #Kubernetes Variables
 
 max_size       = 3

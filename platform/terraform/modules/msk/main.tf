@@ -3,16 +3,17 @@ resource "aws_msk_cluster" "datahub_msk" {
     kafka_version = var.kafka_version
     number_of_broker_nodes = var.number_of_broker_nodes
 
-    brobroker_node_group_info {
-        instance_types = var.instance_class
+    broker_node_group_info {
+        instance_type = var.instance_class
         client_subnets = var.private_subnets
-    }
-    storage_info {
-        ebs_storage_info {
-            volume_size = var.kafka_broker_storage_volume
+
+        storage_info {
+            ebs_storage_info {
+                volume_size = var.kafka_broker_storage_volume
+            }
         }
-    }
-    security_groups = var.vpc_security_group_ids
+        security_groups = var.msk_security_group
+  }
 }
 
 output "zookeeper_connect_string" {

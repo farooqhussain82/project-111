@@ -1,5 +1,5 @@
 variable "cluster_name" {
-    default = "datahub_msk_cluster"
+    default = "datahubmskcluster"
     type = string  
 }
 
@@ -10,12 +10,23 @@ variable "kafka_version" {
 
 variable "instance_class" {
     default = "kafka.m5.large"
+    type = string
 }
 
 variable "number_of_broker_nodes" {
+    default = 3
     type = number
 }
 
 variable "kafka_broker_storage_volume" {
+    default = 1000
     type = number
+}
+
+variable "private_subnets" {
+    type = list(any)
+}
+
+variable "msk_security_group" {
+    type = list(any)
 }
