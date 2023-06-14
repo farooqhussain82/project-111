@@ -30,7 +30,7 @@ resource "aws_cloudwatch_log_resource_policy" "datahub_open_search_cloudwatch_re
 
 
 resource "aws_opensearch_domain" "datahub_open_search_instance" {
-  domain_name = var.domain
+  domain_name    = var.domain
   engine_version = "Elasticsearch_7.10"
 
   advanced_security_options {
