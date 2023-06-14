@@ -1,8 +1,11 @@
 
 module "open_search_security_group" {
-  source  = "terraform-aws-modules/security-group/aws"
-  version = "5.1.0"
-  ingress_rules       = ["https-443-tcp"]
+  source        = "terraform-aws-modules/security-group/aws"
+  version       = "5.1.0"
+  name          = "open_search_security_group"
+  description   = "Security group for open search"
+  vpc_id        = var.vpc_id
+  ingress_rules = ["https-443-tcp"]
 }
 
 resource "aws_iam_service_linked_role" "datahub_open_search_iam_service_role" {
@@ -59,7 +62,7 @@ resource "aws_opensearch_domain" "open_search_instance" {
   }
 
   vpc_options {
-    subnet_ids         = local.subnet_ids
+    subnet_ids         = var.app_private_subnets
     security_group_ids = [module.open_search_security_group.security_group_id]
   }
 

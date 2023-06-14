@@ -1,5 +1,4 @@
 environment         = "dev"
-vpc_name            = "aft_vpc"
 cidr                = "10.101.0.0/16"
 region              = "ap-southeast-1"
 database_subnets    = ["10.101.1.0/24", "10.101.2.0/24", "10.101.3.0/24"]

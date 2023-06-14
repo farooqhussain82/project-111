@@ -11,23 +11,23 @@ variable "open_search_instance_type" {
   description = "Instance type for AWS OpenSearch service"
 }
 
-varible "vpc_id" {
-  type = string
+variable "vpc_id" {
+  type        = string
   description = "VPC ID"
 }
 
-varible "region" {
-  default = "ap-southeast-1"
-  type = string
+variable "region" {
+  default     = "ap-southeast-1"
+  type        = string
   description = "AWS Region"
 }
 
-varible "vpc_cidr" {
-  type = string
+variable "vpc_cidr" {
+  type        = string
   description = "VPC CIDR Block"
 }
 
-varible "app_private_subnets" {
-  type = string
-  description = "App Private Subnet"
+variable "app_private_subnets" {
+  type        = list(any)
+  description = "App Private Subnet IDs"
 }
