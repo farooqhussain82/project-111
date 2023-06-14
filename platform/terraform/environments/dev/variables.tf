@@ -12,8 +12,6 @@
 
 variable "region" {}
 
-variable "vpc_name" {}
-
 # variable "instance_types" {}
 
 # variable "min_size" {}

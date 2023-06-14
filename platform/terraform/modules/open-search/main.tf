@@ -1,26 +1,9 @@
 
-resource "aws_security_group" "datahub_open_search_security_group" {
-  name        = "${var.vpc_name}-opensearch-${var.domain}"
-  description = "Managed by Terraform"
-  vpc_id      = local.vpc_id
-
-  ingress {
-    from_port = 443
-    to_port   = 443
-    protocol  = "tcp"
-    # Needs to provide selected cidr block instead of complete VPC Cidr Block
-    cidr_blocks = [
-      local.vpc_cidr_block
-    ]
-  }
+module "open_search_security_group" {
+  source  = "terraform-aws-modules/security-group/aws"
+  version = "5.1.0"
+  ingress_rules       = ["https-443-tcp"]
 }
-
-# module "security-group" {
-#   source  = "terraform-aws-modules/security-group/aws"
-#   version = "5.1.0"
-#   ingress_cidr_blocks = []
-# }
-
 
 resource "aws_iam_service_linked_role" "datahub_open_search_iam_service_role" {
   aws_service_name = "opensearchservice.amazonaws.com"
@@ -77,7 +60,7 @@ resource "aws_opensearch_domain" "open_search_instance" {
 
   vpc_options {
     subnet_ids         = local.subnet_ids
-    security_group_ids = [aws_security_group.datahub_open_search_security_group.id]
+    security_group_ids = [module.open_search_security_group.security_group_id]
   }
 
   advanced_options = {
@@ -90,5 +73,5 @@ resource "aws_opensearch_domain" "open_search_instance" {
     Domain = var.domain
   }
 
-  depends_on = [aws_iam_service_linked_role.datahub_open_search_iam_service_role]
+  depends_on = [module.open_search_security_group, aws_iam_service_linked_role.datahub_open_search_iam_service_role]
 }

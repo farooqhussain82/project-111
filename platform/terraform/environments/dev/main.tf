@@ -16,8 +16,9 @@ module "rds-db" {
 }
 
 module "datahub-open-search" {
-  source           = "../../modules/open-search"
-  vpc_name         = var.vpc_name
-  aws_region       = var.region
-  vpc_subnets_name = ["aft-app-ap-southeast-1a", "aft-app-ap-southeast-1b", "aft-app-ap-southeast-1c"]
+  source              = "../../modules/open-search"
+  region              = var.region
+  vpc_id              = local.vpc_id
+  vpc_cidr            = local.vpc_cidr
+  app_private_subnets = local.private_subnets
 }
