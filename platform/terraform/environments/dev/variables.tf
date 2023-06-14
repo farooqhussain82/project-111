@@ -1,23 +1,25 @@
-variable "environment" {}
+# variable "environment" {}
 
-variable "cidr" {}
+# variable "cidr" {}
 
-variable "database_subnets" {}
+# variable "database_subnets" {}
 
-variable "private_subnets" {}
+# variable "private_subnets" {}
 
-variable "public_subnets" {}
+# variable "public_subnets" {}
 
-variable "elasticache_subnets" {}
+# variable "elasticache_subnets" {}
 
 variable "region" {}
 
-variable "instance_types" {}
+variable "vpc_name" {}
 
-variable "min_size" {}
+# variable "instance_types" {}
 
-variable "max_size" {}
+# variable "min_size" {}
 
-variable "desired_size" {}
+# variable "max_size" {}
 
-variable "identifier" {}
+# variable "desired_size" {}
+
+# variable "identifier" {}

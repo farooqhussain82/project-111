@@ -14,3 +14,10 @@ module "rds-db" {
   source     = "../../modules/rds"
   identifier = var.environment
 }
+
+module "datahub-open-search" {
+  source           = "../../modules/open-search"
+  vpc_name         = var.vpc_name
+  aws_region       = var.region
+  vpc_subnets_name = ["aft-app-ap-southeast-1a", "aft-app-ap-southeast-1b", "aft-app-ap-southeast-1c"]
+}
