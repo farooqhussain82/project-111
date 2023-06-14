@@ -1,5 +1,3 @@
-
-
 variable "domain" {
   default     = "datahub"
   description = "Domain name for open search."
@@ -13,7 +11,7 @@ variable "open_search_instance_type" {
 
 variable "vpc_id" {
   type        = string
-  description = "VPC ID"
+  description = "The VPC ID"
 }
 
 variable "region" {

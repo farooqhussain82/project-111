@@ -18,9 +18,20 @@ resource "random_password" "open_search_master_user_password" {
   override_special = "!#$%&*()-_=+[]{}<>:?"
 }
 
-resource "aws_opensearch_domain" "open_search_instance" {
-  domain_name    = var.domain
-  engine_version = "OpenSearch_1.0"
+# CloudWatch Log Group
+resource "aws_cloudwatch_log_group" "datahub_open_search_cloudwatch_log_group" {
+  name = "datahub_open_search_cloudwatch_log_group"
+}
+
+resource "aws_cloudwatch_log_resource_policy" "datahub_open_search_cloudwatch_resource_policy" {
+  policy_name     = "datahub_open_search_cloudwatch_resource_policy"
+  policy_document = data.aws_iam_policy_document.datahub_open_search_cloudwatch_resource_policy_document.json
+}
+
+
+resource "aws_opensearch_domain" "datahub_open_search_instance" {
+  domain_name = var.domain
+  engine_version = "Elasticsearch_7.10"
 
   advanced_security_options {
     enabled                        = false
@@ -53,9 +64,11 @@ resource "aws_opensearch_domain" "open_search_instance" {
     volume_type = "gp2"
   }
 
-  # log_publishing_options {
-  #   enabled = false
-  # }
+  log_publishing_options {
+    enabled                  = true
+    log_type                 = "INDEX_SLOW_LOGS"
+    cloudwatch_log_group_arn = aws_cloudwatch_log_group.datahub_open_search_cloudwatch_log_group.arn
+  }
 
   node_to_node_encryption {
     enabled = true
@@ -70,11 +83,11 @@ resource "aws_opensearch_domain" "open_search_instance" {
     "rest.action.multi.allow_explicit_index" = "true"
   }
 
-  access_policies = data.aws_iam_policy_document.os_iam_policy_document.json
+  access_policies = data.aws_iam_policy_document.open_search_iam_policy_document.json
 
   tags = {
     Domain = var.domain
   }
 
-  depends_on = [module.open_search_security_group, aws_iam_service_linked_role.datahub_open_search_iam_service_role]
+  depends_on = [module.open_search_security_group, aws_cloudwatch_log_group.datahub_open_search_cloudwatch_log_group, aws_iam_service_linked_role.datahub_open_search_iam_service_role]
 }
