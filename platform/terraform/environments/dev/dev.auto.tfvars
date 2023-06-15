@@ -7,21 +7,21 @@ region      = "ap-southeast-1"
 # intra_subnets       = ["10.101.31.0/24", "10.101.32.0/24", "10.101.33.0/24"]
 # elasticache_subnets = ["10.101.41.0/24", "10.101.42.0/24", "10.101.43.0/24"]
 
-public_network_inbound_acl_rules = [
-  { rule_number = "100", rule_action = "deny", from_port = "0", to_port = "0", protocol = "-1", cidr_block = "0.0.0.0/0" }
-]
+# public_network_inbound_acl_rules = [
+#   { rule_number = "100", rule_action = "deny", from_port = "0", to_port = "0", protocol = "-1", cidr_block = "0.0.0.0/0" }
+# ]
 
-public_network_outbound_acl_rules = [
-  { rule_number = "100", rule_action = "deny", from_port = "0", to_port = "0", protocol = "-1", cidr_block = "0.0.0.0/0" }
-]
+# public_network_outbound_acl_rules = [
+#   { rule_number = "100", rule_action = "deny", from_port = "0", to_port = "0", protocol = "-1", cidr_block = "0.0.0.0/0" }
+# ]
 
-default_network_inbound_acl_rules = [
-  { rule_number = "100", rule_action = "deny", from_port = "0", to_port = "0", protocol = "-1", cidr_block = "0.0.0.0/0" }
-]
+# default_network_inbound_acl_rules = [
+#   { rule_number = "100", rule_action = "deny", from_port = "0", to_port = "0", protocol = "-1", cidr_block = "0.0.0.0/0" }
+# ]
 
-default_network_outbound_acl_rules = [
-  { rule_number = "100", rule_action = "deny", from_port = "0", to_port = "0", protocol = "-1", cidr_block = "0.0.0.0/0" }
-]
+# default_network_outbound_acl_rules = [
+#   { rule_number = "100", rule_action = "deny", from_port = "0", to_port = "0", protocol = "-1", cidr_block = "0.0.0.0/0" }
+# ]
 
 #Kubernetes Variables
 
@@ -32,7 +32,7 @@ default_network_outbound_acl_rules = [
 
 #MSK Variables
 
-number_of_broker_nodes = 3
-kafka_broker_storage_volume = 1000
-instance_class = "kafka.m5.large"
-kafka_version = "2.8.1"
+# number_of_broker_nodes = 3
+# kafka_broker_storage_volume = 1000
+# instance_class = "kafka.m5.large"
+# kafka_version = "2.8.1"
