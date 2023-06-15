@@ -1,14 +1,24 @@
 
 module "open_search_security_group" {
-  source        = "terraform-aws-modules/security-group/aws"
-  version       = "5.1.0"
-  name          = "open_search_security_group"
-  description   = "Security group for open search"
-  vpc_id        = var.vpc_id
-  ingress_rules = ["https-443-tcp"]
+  source      = "terraform-aws-modules/security-group/aws"
+  version     = "5.1.0"
+  name        = "open_search_security_group"
+  description = "Security group for open search"
+  vpc_id      = var.vpc_id
+  # ingress_rules = ["https-443-tcp"]
+  # ingress_with_self = ["all-all"]
+  # egress_rules      = ["all-all"]
+  # sg-02d3a05f504ecc23e aft-default
+  computed_ingress_with_source_security_group_id = [
+    {
+      source_security_group_id = "sg-02d3a05f504ecc23e"
+    }
+  ]
+  number_of_computed_ingress_with_source_security_group_id = 1
 }
 
 resource "aws_iam_service_linked_role" "datahub_open_search_iam_service_role" {
+  count            = local.aws_service_role_open_search_id == "AWSServiceRoleForAmazonOpenSearchService" ? 0 : 1
   aws_service_name = "opensearchservice.amazonaws.com"
 }
 
@@ -20,7 +30,7 @@ resource "random_password" "open_search_master_user_password" {
 
 # CloudWatch Log Group
 resource "aws_cloudwatch_log_group" "datahub_open_search_cloudwatch_log_group" {
-  name = "datahub_open_search_cloudwatch_log_group"
+  name = "/aws/opensearch/datahub_open_search_cloudwatch_log_group"
 }
 
 resource "aws_cloudwatch_log_resource_policy" "datahub_open_search_cloudwatch_resource_policy" {
@@ -28,13 +38,13 @@ resource "aws_cloudwatch_log_resource_policy" "datahub_open_search_cloudwatch_re
   policy_document = data.aws_iam_policy_document.datahub_open_search_cloudwatch_resource_policy_document.json
 }
 
-
+# OpenSearch Domain
 resource "aws_opensearch_domain" "datahub_open_search_instance" {
   domain_name    = var.domain
   engine_version = "Elasticsearch_7.10"
 
   advanced_security_options {
-    enabled                        = false
+    enabled                        = true
     anonymous_auth_enabled         = true
     internal_user_database_enabled = true
     master_user_options {
