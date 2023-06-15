@@ -1,28 +1,24 @@
 
-resource "aws_security_group" "datahub_open_search_security_group" {
-  name        = "${var.vpc_name}-opensearch-${var.domain}"
-  description = "Managed by Terraform"
-  vpc_id      = local.vpc_id
-
-  ingress {
-    from_port = 443
-    to_port   = 443
-    protocol  = "tcp"
-    # Needs to provide selected cidr block instead of complete VPC Cidr Block
-    cidr_blocks = [
-      local.vpc_cidr_block
-    ]
-  }
+module "open_search_security_group" {
+  source      = "terraform-aws-modules/security-group/aws"
+  version     = "5.1.0"
+  name        = "open_search_security_group"
+  description = "Security group for open search"
+  vpc_id      = var.vpc_id
+  # ingress_rules = ["https-443-tcp"]
+  # ingress_with_self = ["all-all"]
+  # egress_rules      = ["all-all"]
+  # sg-02d3a05f504ecc23e aft-default
+  computed_ingress_with_source_security_group_id = [
+    {
+      source_security_group_id = "sg-02d3a05f504ecc23e"
+    }
+  ]
+  number_of_computed_ingress_with_source_security_group_id = 1
 }
 
-# module "security-group" {
-#   source  = "terraform-aws-modules/security-group/aws"
-#   version = "5.1.0"
-#   ingress_cidr_blocks = []
-# }
-
-
 resource "aws_iam_service_linked_role" "datahub_open_search_iam_service_role" {
+  count            = local.aws_service_role_open_search_id == "AWSServiceRoleForAmazonOpenSearchService" ? 0 : 1
   aws_service_name = "opensearchservice.amazonaws.com"
 }
 
@@ -32,12 +28,23 @@ resource "random_password" "open_search_master_user_password" {
   override_special = "!#$%&*()-_=+[]{}<>:?"
 }
 
-resource "aws_opensearch_domain" "open_search_instance" {
+# CloudWatch Log Group
+resource "aws_cloudwatch_log_group" "datahub_open_search_cloudwatch_log_group" {
+  name = "/aws/opensearch/datahub_open_search_cloudwatch_log_group"
+}
+
+resource "aws_cloudwatch_log_resource_policy" "datahub_open_search_cloudwatch_resource_policy" {
+  policy_name     = "datahub_open_search_cloudwatch_resource_policy"
+  policy_document = data.aws_iam_policy_document.datahub_open_search_cloudwatch_resource_policy_document.json
+}
+
+# OpenSearch Domain
+resource "aws_opensearch_domain" "datahub_open_search_instance" {
   domain_name    = var.domain
-  engine_version = "OpenSearch_1.0"
+  engine_version = "Elasticsearch_7.10"
 
   advanced_security_options {
-    enabled                        = false
+    enabled                        = true
     anonymous_auth_enabled         = true
     internal_user_database_enabled = true
     master_user_options {
@@ -67,28 +74,30 @@ resource "aws_opensearch_domain" "open_search_instance" {
     volume_type = "gp2"
   }
 
-  # log_publishing_options {
-  #   enabled = false
-  # }
+  log_publishing_options {
+    enabled                  = true
+    log_type                 = "INDEX_SLOW_LOGS"
+    cloudwatch_log_group_arn = aws_cloudwatch_log_group.datahub_open_search_cloudwatch_log_group.arn
+  }
 
   node_to_node_encryption {
     enabled = true
   }
 
   vpc_options {
-    subnet_ids         = local.subnet_ids
-    security_group_ids = [aws_security_group.datahub_open_search_security_group.id]
+    subnet_ids         = var.app_private_subnets
+    security_group_ids = [module.open_search_security_group.security_group_id]
   }
 
   advanced_options = {
     "rest.action.multi.allow_explicit_index" = "true"
   }
 
-  access_policies = data.aws_iam_policy_document.os_iam_policy_document.json
+  access_policies = data.aws_iam_policy_document.open_search_iam_policy_document.json
 
   tags = {
     Domain = var.domain
   }
 
-  depends_on = [aws_iam_service_linked_role.datahub_open_search_iam_service_role]
+  depends_on = [module.open_search_security_group, aws_cloudwatch_log_group.datahub_open_search_cloudwatch_log_group, aws_iam_service_linked_role.datahub_open_search_iam_service_role]
 }

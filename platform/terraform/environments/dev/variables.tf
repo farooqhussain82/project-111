@@ -1,18 +1,6 @@
-# variable "environment" {}
-
-# variable "cidr" {}
-
-# variable "database_subnets" {}
-
-# variable "private_subnets" {}
-
-# variable "public_subnets" {}
-
-# variable "elasticache_subnets" {}
+variable "environment" {}
 
 variable "region" {}
-
-variable "vpc_name" {}
 
 # variable "instance_types" {}
 
